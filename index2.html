@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+    <body id = "accessBody">
+        <link href="style.css" rel="stylesheet">
+        <input type = "text" id = "name" autocomplete = "off" name = "name" minlength = "1" maxlength = "10" size = "12">
+        <button id = "onPressAdd">Add</button>
+        <button id = "onPressUntickAll">Untick all</button>
+    </body>
+
+    <script>
+        
+        const buttonAccessAdd = document.getElementById("onPressAdd")
+        const buttonAccessUntickAll = document.getElementById("onPressUntickAll")
+        
+        const bodyTagAccess = document.getElementById("accessBody")
+        const orderedListElement = document.createElement("ol")
+
+        const getInput = document.getElementById("name")
+
+        let counterForList = 0
+
+        let object =
+        {
+            1 : "Roni" ,
+            2 : "Rahul" ,
+            3 : "Raman" ,
+            4 : "Raghav"
+        }
+        //console.log(object)
+
+        // console.log(bodyTagAccess)
+        bodyTagAccess.appendChild(orderedListElement)
+        //console.log(buttonAccessAdd)
+        
+        function addToList()
+        {
+            let accessList = document.querySelectorAll("li")
+            let inputValue = getInput.value.toLowerCase()
+            let textMatchStatus = "no match found"
+            
+            
+                for (let i = 0; i < accessList.length; i++)
+                {
+                    // console.log("entered for loop")
+                    // console.log(accessList[0].innerText)
+                    let temp = accessList[i].innerText.toLowerCase()
+                    
+                    // console.log(i + " "+temp)
+                    // console.log(i + " "+inputValue)
+                    if (temp === inputValue)
+                    {
+                        textMatchStatus = "matched"
+                        //console.log("matched")
+                    }
+                    
+                }
+            
+                if (getInput.value !== null &&
+                    getInput.value !== undefined &&
+                    getInput.value !== "" &&
+                    textMatchStatus === "no match found")
+                    {
+                        window.localStorage.setItem (counterForList, getInput.value)
+                        //console.log( typeof (window.localStorage.getItem(counterForList) ) )
+
+                        const listElement = document.createElement("li")
+                        //console.log(window.localStorage.getItem(counterForList))
+                        listElement.innerText = window.localStorage.getItem(counterForList) 
+                        orderedListElement.appendChild(listElement)
+                        // bodyTagAccess.appendChild("orderedListElement")
+                        counterForList++
+                    }
+
+            getInput.value = ""
+
+            const newAccessList = document.querySelectorAll("li")
+            for (let i = 0; i < newAccessList.length; i++)
+            {
+                newAccessList[i].classList.remove("hideFromList")
+            }
+
+            accessList = newAccessList
+            //console.log("accessList: ",newAccessList.length)
+            // console.log(counterForList)
+            // console.log(localStorage.length)
+        }
+        buttonAccessAdd.addEventListener("click", addToList)
+
+        
+        //loads items when the web page refreshes or loads
+        function loadItems()
+        {
+            // for (let i = 0; i < localStorage.length; i++)
+            // {
+            //     const listElement = document.createElement("li")
+            //     listElement.innerText = window.localStorage.getItem(counterForList) 
+            //     orderedListElement.appendChild(listElement)
+
+            //     counterForList++
+            // }
+            console.log("Entered!")
+            for (let i = 0; i < object.length; i++)
+            {
+                console.log("Entered!")
+                console.log(object)
+                const listElement = document.createElement("li")
+                
+                listElement.innerText = object.i 
+                orderedListElement.appendChild(listElement)
+            }
+
+        }
+        window.addEventListener("load", loadItems)
+
+
+        //unticks 
+        function buttonFunctionUntickAll()
+        {
+            const accessList = document.querySelectorAll("li")
+            for (let i = 0; i < accessList.length; i++)
+            {
+                accessList[i].classList.remove("strikeThrough")
+            }
+        }
+        buttonAccessUntickAll.addEventListener("click", buttonFunctionUntickAll)
+
+
+        function listFunction(e)
+        {
+            e.target.classList.add("strikeThrough")
+        }
+        orderedListElement.addEventListener("click", listFunction)
+
+
+        function keyboardKeyPress(e)
+        {
+            const accessList = document.querySelectorAll("li")
+            //console.log(accessList.length)
+            let inputValue = getInput.value.toLowerCase()
+
+            //console.log(e)
+
+            for (let i = 0; i < accessList.length; i++)
+            {
+                //console.log("innerHTML: " + accessList[i].innerHTML + "innerText: " + accessList[i].innerText)
+                let temp = accessList[i].innerHTML.toLowerCase()
+                if ( temp.startsWith(inputValue) )
+                {
+                    //console.log("backspace entered")
+                    accessList[i].classList.remove("hideFromList")
+                    //console.log(accessList[i].classList)
+                }
+
+                else
+                {
+                    accessList[i].classList.add("hideFromList")
+                }
+            }
+            //console.log( accessList[0].innerText.startsWith(inputValue) )
+        }
+        getInput.addEventListener("keyup", keyboardKeyPress)
+
+
+        // function backspaceKeyPress()
+        // {
+
+        // }
+        // getInput.addEventListener("keyup", backspaceKeyPress)
+    </script>
+</html>
